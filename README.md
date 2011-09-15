@@ -1,5 +1,3 @@
-# Kohana PHP Framework, version 3.2 (development)
+# ksa14 community website redevelopment, using Kohana 3.2
 
-This is the current development version of [Kohana](http://kohanaframework.org/).
 
-For the most current release, see the 3.1/master branch.
