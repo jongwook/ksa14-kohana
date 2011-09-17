@@ -102,8 +102,8 @@ Kohana::modules(array(
 	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
 	'database'   => MODPATH.'database',   // Database access
-	// 'image'      => MODPATH.'image',      // Image manipulation
-	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	'image'      => MODPATH.'image',      // Image manipulation
+	'orm'        => MODPATH.'orm',        // Object Relationship Mapping
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
 	'userguide'  => MODPATH.'userguide',  // User guide and API documentation
 	));
@@ -112,6 +112,124 @@ Kohana::modules(array(
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
+	
+// View articles 
+Route::set('view', '<id>',
+	array(
+		'id' => '\d+',
+	))
+	->defaults(array(
+		'controller' => 'view',
+		'action'	 => 'index',
+	));
+	
+// View list with given page
+Route::set('list', '(page/<page>)',
+	array(
+		'page' => '\d+',
+	))
+	->defaults(array(
+		'controller' => 'list',
+		'action'	 => 'index',
+		'page'       => '1',
+	));
+	
+// Write/Modify articles
+Route::set('write', 'write/(<id>)',
+	array(
+		'id' => '\d+',
+	))
+	->defaults(array(
+		'controller' => 'write',
+		'action'     => 'index',
+	));
+	
+// Comments
+Route::set('comment', 'comment/<id>(/<page>)',
+	array(
+		'id' => '\d+',
+		'page' => '\d+',
+	))
+	->defaults(array(
+		'controller' => 'comment',
+		'action'     => 'index',
+	));
+	
+// Search
+Route::set('search', 'search/(<method>/)<keyword>',
+	array(
+		'method'  => '(comment|image)',
+		'keyword' => '.+',
+	))
+	->defaults(array(
+		'controller' => 'search',
+		'action'     => 'index',
+		'method'     => 'article',
+	));
+	
+// Mobile
+Route::set('mobile_view', 'm/<id>',
+	array(
+		'id' => '\d+',
+	))
+	->defaults(array(
+		'controller' => 'view',
+		'action'     => 'index',
+		'mobile'     => TRUE,
+	));
+
+Route::set('mobile_main', 'm')
+	->defaults(array(
+		'controller' => 'list',
+		'action'     => 'index',
+		'page'       => '1',
+		'mobile'     => TRUE,
+	));
+	
+Route::set('mobile_list', 'm/page/<page>',
+	array(
+		'page' => '\d+',
+	))
+	->defaults(array(
+		'controller' => 'list',
+		'action'     => 'index',
+		'mobile'     => TRUE,
+	));
+
+Route::set('memo', 'memo(/<action>)(/<id>)',
+	array(
+		'action' => 'write',
+		'id'     => '\d+',
+	))
+	->defaults(array(
+		'controller' => 'memo',
+		'action'     => 'index',
+	));
+
+Route::set('admin', 'admin(/<action>(/<id>))')
+	->defaults(array(
+		'controller' => 'admin',
+		'action'     => 'index',
+	));
+
+// API
+Route::set('api', 'api(/<action>(/<id>))')
+	->defaults(array(
+		'controller' => 'api',
+		'action'     => 'index',
+	));
+	
+// Utility
+Route::set('utility', '<action>(/<id>)',
+	array(
+		'action' => '(info|options|rankings)',
+	))
+	->defaults(array(
+		'controller' => 'utility',
+		'action'     => 'index',
+	));
+	
+// Default
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',
